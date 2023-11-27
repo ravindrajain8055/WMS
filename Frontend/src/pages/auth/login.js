@@ -71,7 +71,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Login | Devias Kit
+          Login | Warehouse Wizard
         </title>
       </Head>
       <Box

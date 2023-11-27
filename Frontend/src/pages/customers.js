@@ -199,7 +199,7 @@ const Page = () => {
     <>
       <Head>
         <title>
-          Customers | Devias Kit
+          Customers | Warehouse Wizard
         </title>
       </Head>
       <Box

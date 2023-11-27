@@ -8,7 +8,7 @@ const Page = () => (
   <>
     <Head>
       <title>
-        Settings | Devias Kit
+        Settings | Warehouse Wizard
       </title>
     </Head>
     <Box
