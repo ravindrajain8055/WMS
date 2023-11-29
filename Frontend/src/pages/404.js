@@ -56,7 +56,7 @@ const Page = () => (
             variant="body1"
           >
             You either tried some shady route or you came here by mistake.
-            Whichever it is, try using the navigation
+            Whichever it is, try using the navigation. Or contact the admins.
           </Typography>
           <Button
             component={NextLink}
