@@ -25,7 +25,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
+
+
 const Example = () => {
+    const [validationErrors, setValidationErrors] = useState({});
+    const [materials, setMaterials] =  useState({})
+
   useEffect(() => {
     axios.get("https://api.jsonbin.io/v3/b/657099d354105e766fda7f0c")
     .then((response)=>{
@@ -37,9 +42,6 @@ const Example = () => {
       console.log('error') })
   },[]);
   
-  const [validationErrors, setValidationErrors] = useState({});
-  const [materials, setMaterials] =  useState({})
-
   console.log('Refresh')
   console.log(validationErrors)
 
@@ -223,9 +225,10 @@ const handleCreateUser = async ({ values, table }) => {
         // const body = JSON.stringify(values);
         // const res = await axios.post('', body, config);
 
-        // let arr = materials.push(values)
-        // setMaterials(arr)
-        // console.log(materials)
+        let arr = materials.push(values)
+        setMaterials(arr)
+        console.log(materials,'saved in the database')
+        window.location.reload();
         //exit creating mode
     };
 
@@ -401,7 +404,6 @@ const checkStrDigit = (str) => {
 
 
 function validateUser(user) {
-    console.log(user.material_code)
   return {   
     material_code: !checkStrDigit(user.material_code) ? 'Please Add Only Numbers' : '',
     material_description: !validateRequired(user.material_description) ? 'material_description is Required' : '',
