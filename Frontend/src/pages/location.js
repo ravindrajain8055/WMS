@@ -1,0 +1,29 @@
+import { useCallback, useMemo, useState } from "react";
+import Head from "next/head";
+import { Box, Button, Container, Stack, SvgIcon, Typography } from "@mui/material";
+import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
+import Palletcount from "src/sections/location/palletCount";
+
+import Example from "../sections/location/locationpage";
+
+const Page = () => {
+  return (
+    <div>
+      <Head>
+        <title>Location Details</title>
+      </Head>
+      <Typography sx={{ m: 1 }} variant="h5" component="h5">
+        Location Details
+      </Typography>
+
+      <Palletcount />
+
+      {/* Previous code here  */}
+      <Example />
+    </div>
+  );
+};
+
+Page.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+
+export default Page;
