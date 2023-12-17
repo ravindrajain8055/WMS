@@ -1,4 +1,4 @@
-import { Avatar, Card, CardContent, Stack, SvgIcon, Typography } from "@mui/material";
+import { Card, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
 const Palletcount = () => {

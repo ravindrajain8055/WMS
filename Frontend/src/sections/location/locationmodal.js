@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import { Button } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import { styled } from "@mui/material/styles";
 
 const style = {
   position: "absolute",
@@ -127,7 +127,8 @@ let fdata = {
 };
 
 const Locationmodal = ({ handleClose, showModal, rowRef }) => {
-  const { batch_number, material_code, material_description } = rowRef.current;
+  const { row } = rowRef.current;
+  const { location_name, material_code, material_description } = row;
   const [data, setData] = useState(fdata);
 
   //useEffect with cancel
@@ -176,6 +177,12 @@ const Locationmodal = ({ handleClose, showModal, rowRef }) => {
           >
             Close
           </Button>
+          <Box sx={{ flexGrow: 1, pb: 1 }}>
+            <div sx={{ borderRadius: "16px", border: "1", borderColor: "secondary.main" }}>
+              <Item>Location</Item>
+              <Item style={{ backgroundColor: "#808080", color: "white" }}>{location_name}</Item>
+            </div>
+          </Box>
           <Typography sx={{ m: 2 }} id="modal-modal-title" variant="h6" component="h6">
             Current Occupancy
           </Typography>

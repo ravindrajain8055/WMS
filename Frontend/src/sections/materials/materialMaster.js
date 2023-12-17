@@ -34,7 +34,6 @@ const Example = () => {
     axios
       .get("https://api.jsonbin.io/v3/b/657099d354105e766fda7f0c")
       .then((response) => {
-        console.log("yo", response.data);
         setMaterials(response.data.record);
         //toast.error('Users loading xsuccessful')
       })
@@ -44,8 +43,8 @@ const Example = () => {
       });
   }, []);
 
-  console.log("Refresh");
   console.log(validationErrors);
+  console.log(materials);
 
   const columns = useMemo(
     () => [
@@ -205,30 +204,29 @@ const Example = () => {
   //CREATE action
   const handleCreateUser = async ({ values, table }) => {
     const newValidationErrors = validateUser(values);
-    console.log("save");
     if (Object.values(newValidationErrors).some((error) => error)) {
       setValidationErrors(newValidationErrors);
       return;
     }
-
-    setValidationErrors({});
-    await createUser(values);
-    table.setCreatingRow(null);
-    toast.success("Material Added, refreshing the page");
 
     // const config = {
     //     headers:{
     //         'Content-Type':'application/json'
     //     }
     // }
-
     // const body = JSON.stringify(values);
     // const res = await axios.post('', body, config);
+    let arr = materials;
+    arr.push(values);
 
-    let arr = materials.push(values);
+    console.log(values, "Valuessssssssssss");
+    console.log(arr);
     setMaterials(arr);
-    console.log(materials, "New Material added in the database");
-    window.location.reload(true);
+    setValidationErrors({});
+
+    table.setCreatingRow(null);
+    toast.success("Material Added");
+    // window.location.reload(true);
     //exit creating mode
   };
 
@@ -240,7 +238,6 @@ const Example = () => {
       setValidationErrors(newValidationErrors);
       return;
     }
-    console.log(prevMRef, values.material_code);
     if (prevMRef.current != values.material_code) {
       setValidationErrors(() => {
         return {
