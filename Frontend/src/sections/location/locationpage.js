@@ -305,6 +305,8 @@ const Example = () => {
       enableColumnOrdering: true, //but you can turn back any of those features on if you want like this
       Cell: ({ row }) => (
         <Button
+          variant="contained"
+          sx={{ pt: 0, pb: 0 }}
           onClick={() => {
             rowRef.current = {
               row: row._valuesCache,

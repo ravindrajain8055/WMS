@@ -4,8 +4,9 @@ import Paper from "@mui/material/Paper";
 import CloseIcon from "@mui/icons-material/Close";
 import { Typography } from "@mui/material";
 import { toast } from "react-toastify";
-
 import { Box, Button, TextField, Unstable_Grid2 as Grid } from "@mui/material";
+import { addCompany } from "src/redux/slice";
+import { useDispatch } from "react-redux";
 
 const style = {
   position: "absolute",
@@ -24,21 +25,10 @@ const style = {
   borderColor: "800080",
 };
 
-const states = [
-  {
-    value: "godrej",
-    label: "Godrej",
-  },
-  {
-    value: "wanhua",
-    label: "Wanhua",
-  },
-];
-
-const Companymodal = ({ handleClose, showModal, setData }) => {
-  // const { sr_no, location_name, status } = row;
+const Companymodal = ({ handleClose, showModal, setData, data }) => {
+  const dispatch = useDispatch();
   const [values, setValues] = useState({
-    type: "Godrej",
+    type: "godrej",
   });
 
   useEffect(() => {
@@ -46,21 +36,12 @@ const Companymodal = ({ handleClose, showModal, setData }) => {
   }, []);
 
   const handleChange = useCallback((event) => {
-    ////update array of objects
-    // const newState = data.map((obj) => {
-    //   if (obj.location_name === location_name) {
-    //     return { ...obj, type: event.target.value };
-    //   }
-    //   return obj;
-    // });
     let uppname = event.target.value;
-
-    setData(uppname.toUpperCase());
     setValues(uppname.toUpperCase());
 
-    //Axios call
+    dispatch(addCompany(uppname));
 
-    toast.success("Company changed succesfully");
+    toast.success(`Changed company to ${uppname.toUpperCase()} `);
   }, []);
 
   return (
@@ -109,9 +90,9 @@ const Companymodal = ({ handleClose, showModal, setData }) => {
             SelectProps={{ native: true }}
             value={values.type}
           >
-            {states.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
+            {data.map((option) => (
+              <option key={option} value={option}>
+                {option}
               </option>
             ))}
           </TextField>

@@ -7,7 +7,6 @@ import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 import { useRef, useState } from "react";
-import Inventorymodal from "./inventorymodal";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -570,7 +569,7 @@ const csvConfig = mkConfig({
   useKeysAsHeaders: true,
 });
 
-const Example = () => {
+const Unloadinglog = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
   const rowRef = useRef("");
@@ -710,11 +709,11 @@ const Example = () => {
   return (
     <>
       <MaterialReactTable table={table} />
-      {showModal && (
+      {/* {showModal && (
         <Inventorymodal showModal={showModal} handleClose={handleClose} rowRef={rowRef} />
-      )}
+      )} */}
     </>
   );
 };
 
-export default Example;
+export default Unloadinglog;

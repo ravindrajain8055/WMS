@@ -1,18 +1,23 @@
 const { createSlice, nanoid } = require("@reduxjs/toolkit");
 
 const initialState = {
-  company: [],
-  inventory: [],
+  company: "",
+  // inventoryul: [],
+  // inventoryl: [],
+  // materialul: [],
+  // materiall: [],
+  inventoryuldetails: {},
 };
 
-const slice = createSlice({
+const Slice = createSlice({
+  name: "Op",
   initialState,
   reducers: {
     addCompany: (state, action) => {
-      state.company.push(action.companyName);
+      state.company = action.payload;
     },
   },
 });
 
 export const { addCompany } = Slice.actions;
-export default slice.reducer;
+export default Slice.reducer;

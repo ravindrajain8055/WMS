@@ -10,6 +10,15 @@ import { SvgIcon } from "@mui/material";
 
 export const items = [
   {
+    title: "Unloading",
+    path: "/unloading",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Overview",
     path: "/",
     icon: (

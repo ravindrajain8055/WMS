@@ -7,6 +7,7 @@ import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -499,6 +500,8 @@ const Example = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
+  let companyname = useSelector((store) => store.company);
+  console.log(companyname, "from warehouse lookup");
 
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);
