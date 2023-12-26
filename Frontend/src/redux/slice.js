@@ -16,8 +16,11 @@ const Slice = createSlice({
     addCompany: (state, action) => {
       state.company = action.payload;
     },
+    addinventoryuldetails: (state, action) => {
+      state.inventoryuldetails = action.payload;
+    },
   },
 });
 
-export const { addCompany } = Slice.actions;
+export const { addCompany, addinventoryuldetails } = Slice.actions;
 export default Slice.reducer;

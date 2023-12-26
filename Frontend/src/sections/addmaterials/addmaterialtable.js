@@ -7,10 +7,8 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 import { useRef, useState } from "react";
-import Addnewunloadingmodal from "./addnewunloadingmodal";
 import { useDispatch } from "react-redux";
-import { addinventoryuldetails } from "src/redux/slice";
-import { useRouter } from "next/router";
+import Addmaterialmodalf from "./addmaterialmodalf";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -23,102 +21,52 @@ const csvConfig = mkConfig({
 let fdata = [
   {
     sr_no: "1",
-    consignor_name: "Godrej",
-    invoice_number: "32156488",
-    invoice_date: "2023-11-25",
-    actionn: "start_unloading", //double nn in the end as action is a react
-    name_of_supervisor: "Ganesh",
-    received_from: "Godrej",
-    unloading_time: "7:33 PM",
-    inward_time: "7:33 PM",
-    truck_number: "",
-    unloading_date: "2023-11-25",
+    material_code: "45169669",
+    description: "MasterSeal 910 20MMx10MM 30M",
+    batch_number: "1000927283",
+    manufacturing_date: "2023-10-10	11:11:11",
+    expiry_date: "2024-10-10 11:11:11",
+    quantity: "15",
+    total_weight: "85",
+    putaway_location: "A-0-001",
   },
 ];
 
-const Unloadingpage = () => {
+const Addmaterialtable = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
   const rowRef = useRef("");
 
   const dispatch = useDispatch();
-  const router = useRouter();
 
   const columns = [
     columnHelper.accessor("sr_no", {
       header: "Sr_no.",
       size: "20px",
     }),
-    columnHelper.accessor("consignor_name", {
-      header: "Consignor Name",
+    columnHelper.accessor("material_code", {
+      header: "Material Code",
     }),
-    columnHelper.accessor("invoice_number", {
-      header: "Invoice Number",
+    columnHelper.accessor("description", {
+      header: "Description",
     }),
-    columnHelper.accessor("invoice_date", {
-      header: "Invoice Date",
+    columnHelper.accessor("batch_number", {
+      header: "batch Number",
     }),
-    {
-      id: "actionn",
-      header: "action",
-      accessorKey: "actionn",
-      enableColumnOrdering: true,
-      Cell: ({ renderedCellValue, row }) => {
-        console.log(renderedCellValue, row._valuesCache);
-        if (renderedCellValue == "start_unloading") {
-          return (
-            <Button
-              variant="contained"
-              sx={{ backgroundColor: "#7AED53", color: "black", m: 0, pb: 0, pt: 0 }}
-            >
-              Start Unloading
-            </Button>
-          );
-        } else {
-          return (
-            //check if materials are added or not
-            <Button variant="contained" sx={{ backgroundColor: "#ED5953", m: 0, pb: 0, pt: 0 }}>
-              Save Inward Processing
-            </Button>
-          );
-        }
-      },
-    },
-    {
-      id: "material_details",
-      header: "Material Details",
-      columnDefType: "display", //turns off data column features like sorting, filtering, etc.
-      enableColumnOrdering: true, //but you can turn back any of those features on if you want like this
-      Cell: ({ row }) => (
-        <Button
-          variant="contained"
-          sx={{ pb: 0, pt: 0, backgroundColor: "#ED5953" }}
-          onClick={() => {
-            dispatch(addinventoryuldetails(row._valuesCache));
-            router.push("/addmaterials");
-          }}
-        >
-          Add Materials
-        </Button>
-      ),
-    },
-    columnHelper.accessor("name_of_supervisor", {
-      header: "Name of Supervisor",
+    columnHelper.accessor("manufacturing_date", {
+      header: "manufacturing date",
     }),
-    columnHelper.accessor("received_from", {
-      header: "Received From",
+    columnHelper.accessor("expiry_date", {
+      header: "expiry date",
     }),
-    columnHelper.accessor("unloading_time", {
-      header: "Unloading time",
+    columnHelper.accessor("quantity", {
+      header: "quantity",
     }),
-    columnHelper.accessor("inward_time", {
-      header: "Inward time",
+    columnHelper.accessor("total_weight", {
+      header: "total weight",
     }),
-    columnHelper.accessor("truck_number", {
-      header: "Truck Number",
-    }),
-    columnHelper.accessor("unloading_date", {
-      header: "Unloading Date",
+    columnHelper.accessor("putaway_location", {
+      header: "putaway location",
     }),
     {
       id: "delete",
@@ -216,9 +164,15 @@ const Unloadingpage = () => {
 
   return (
     <div>
-      <Stack alignItems="center" direction="row" justifyContent="space-between" spacing={2}>
+      <Stack
+        alignItems="center"
+        direction="row"
+        justifyContent="space-between"
+        spacing={2}
+        sx={{ mt: 3 }}
+      >
         <Typography sx={{ m: 1, pl: 2 }} variant="h5" component="h5">
-          Ongoing Inwards
+          Unloading Materials
         </Typography>
         <Stack sx={{ display: "flex", alignItems: "center", pr: 2 }} direction="row" spacing={2}>
           <Button
@@ -227,13 +181,13 @@ const Unloadingpage = () => {
               setShowModal(true);
             }}
           >
-            + Add New Unloading
+            + Add New Material
           </Button>
         </Stack>
       </Stack>
       <MaterialReactTable table={table} />
       {showModal && (
-        <Addnewunloadingmodal
+        <Addmaterialmodalf
           showModal={showModal}
           handleClose={handleClose}
           setData={setData}
@@ -244,4 +198,4 @@ const Unloadingpage = () => {
   );
 };
 
-export default Unloadingpage;
+export default Addmaterialtable;

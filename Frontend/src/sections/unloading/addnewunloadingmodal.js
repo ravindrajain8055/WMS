@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { format } from "date-fns";
 
 import { Box, Button, TextField, Unstable_Grid2 as Grid } from "@mui/material";
 
@@ -16,15 +17,13 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "50%",
-  height: "50%",
+  width: "45%",
+  height: "45%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
   boxShadow: 24,
   p: 2,
   border: 1,
   borderRadius: "16px",
-  borderColor: "800080",
 };
 
 let now = dayjs();
@@ -55,6 +54,12 @@ const Addnewunloadingmodal = ({ handleClose, showModal, setData, data }) => {
     console.log("unloadingmodal");
   }, []);
 
+  const getCurrentTime = () => {
+    // Get current date and time
+    const now = new Date();
+    return format(now, "HH:mm:ss");
+  };
+
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues,
     validationSchema: signUpSchema,
@@ -63,6 +68,15 @@ const Addnewunloadingmodal = ({ handleClose, showModal, setData, data }) => {
     //// By disabling validation onChange and onBlur formik will validate on submit.
     onSubmit: (values, action) => {
       console.log("🚀 ~ file: App.jsx ~ line 17 ~ App ~ values", values);
+
+      values.sr_no = data.length + 1;
+      values.actionn = "start_unloading";
+      values.unloading_time = "";
+      values.inward_time = getCurrentTime();
+      values.unloading_date = format(values.unloading_date, "yyyy-MM-dd HH:mm:ss");
+      values.invoice_date = format(values.invoice_date, "yyyy-MM-dd HH:mm:ss");
+
+      setData((prevArray) => [...prevArray, values]);
       //// to get rid of all the values after submitting the form
       action.resetForm();
     },
@@ -117,6 +131,7 @@ const Addnewunloadingmodal = ({ handleClose, showModal, setData, data }) => {
           <Typography color="text.primary" variant="h5" sx={{ pt: 1, pb: 2, mb: 0 }}>
             Unloading Details
           </Typography>
+
           <form onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid xs={12} md={6}>
@@ -152,6 +167,7 @@ const Addnewunloadingmodal = ({ handleClose, showModal, setData, data }) => {
               <Grid xs={12} md={6}>
                 <DatePicker
                   defaultValue={now.format("YYYY-MM-DD")}
+                  disableFuture
                   fullWidth
                   label="Invoice Date"
                   name="invoice_date"

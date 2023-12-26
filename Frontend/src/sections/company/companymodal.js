@@ -25,11 +25,9 @@ const style = {
   borderColor: "800080",
 };
 
-const Companymodal = ({ handleClose, showModal, setData, data }) => {
+const Companymodal = ({ handleClose, showModal, companyname, data }) => {
   const dispatch = useDispatch();
-  const [values, setValues] = useState({
-    type: "godrej",
-  });
+  const [values, setValues] = useState(companyname);
 
   useEffect(() => {
     console.log("palletmodal2");
@@ -88,7 +86,7 @@ const Companymodal = ({ handleClose, showModal, setData, data }) => {
             required
             select
             SelectProps={{ native: true }}
-            value={values.type}
+            value={values}
           >
             {data.map((option) => (
               <option key={option} value={option}>

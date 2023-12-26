@@ -51,10 +51,8 @@ const Company = () => {
               m: 0,
               pt: 0,
               pb: 0,
-              backgroundColor: "#6366f1",
-              color: "white",
             }}
-            variant="contained"
+            variant="outlined"
             onClick={() => {
               setShowModal(true);
             }}
@@ -68,8 +66,8 @@ const Company = () => {
         <Companymodal
           showModal={showModal}
           handleClose={handleClose}
-          setData={setData}
           data={data}
+          companyname={companyname}
         />
       )}
     </div>
