@@ -11,6 +11,7 @@ import Addnewunloadingmodal from "./addnewunloadingmodal";
 import { useDispatch } from "react-redux";
 import { addinventoryuldetails } from "src/redux/slice";
 import { useRouter } from "next/router";
+import { format } from "date-fns";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -25,21 +26,34 @@ let fdata = [
     sr_no: "1",
     consignor_name: "Godrej",
     invoice_number: "32156488",
-    invoice_date: "2023-11-25",
+    invoice_date: "2023-11-25 11:11:11",
     actionn: "start_unloading", //double nn in the end as action is a react
     name_of_supervisor: "Ganesh",
     received_from: "Godrej",
-    unloading_time: "7:33 PM",
-    inward_time: "7:33 PM",
+    unloading_time: "",
+    inward_time: "10:11:12",
     truck_number: "",
-    unloading_date: "2023-11-25",
+    unloading_date: "2023-11-25 11:11:11",
+  },
+  {
+    sr_no: "2",
+    consignor_name: "Godrej",
+    invoice_number: "32156489",
+    invoice_date: "2023-11-25 10:10:10",
+    actionn: "start_unloading", //double nn in the end as action is a react
+    name_of_supervisor: "Ganesh",
+    received_from: "Godrej",
+    unloading_time: "",
+    inward_time: "10:10:10",
+    truck_number: "MH052486",
+    unloading_date: "2023-11-25 10:10:10",
   },
 ];
 
 const Unloadingpage = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
-  const rowRef = useRef("");
+  const unloadingRef = useRef("");
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -64,12 +78,12 @@ const Unloadingpage = () => {
       accessorKey: "actionn",
       enableColumnOrdering: true,
       Cell: ({ renderedCellValue, row }) => {
-        console.log(renderedCellValue, row._valuesCache);
         if (renderedCellValue == "start_unloading") {
           return (
             <Button
               variant="contained"
               sx={{ backgroundColor: "#7AED53", color: "black", m: 0, pb: 0, pt: 0 }}
+              onClick={handleUnloading(row._valuesCache)}
             >
               Start Unloading
             </Button>
@@ -138,6 +152,28 @@ const Unloadingpage = () => {
       ),
     },
   ];
+
+  const getCurrentTime = () => {
+    // Get current date and time
+    const now = new Date();
+    return format(now, "HH:mm:ss");
+  };
+
+  const handleUnloading = (rowval) => {
+    // to updateeee
+    const updatedActionn = { actionn: "Save Inward Processing", inward_time: getCurrentTime() };
+    setData(
+      data.map((item) => {
+        if (item.invoice_number == rowval.invoice_number) {
+          return { ...item, updatedActionn };
+        } else {
+          return item;
+        }
+      })
+    );
+
+    console.log(data);
+  };
 
   const handleExportRows = (rows) => {
     const rowData = rows.map((row) => row.original);
@@ -211,8 +247,6 @@ const Unloadingpage = () => {
       </Box>
     ),
   });
-
-  console.log(rowRef.current);
 
   return (
     <div>

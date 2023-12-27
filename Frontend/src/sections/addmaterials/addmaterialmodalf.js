@@ -72,7 +72,6 @@ let now = dayjs();
 const initialValues = {
   material_code: "",
   batch_number: "",
-  description: "",
   total_weight: "",
   quantity: "",
   manufacturing_date: new Date(),
@@ -80,12 +79,8 @@ const initialValues = {
 };
 
 const signUpSchema = Yup.object({
-  material_code: Yup.string().min(2).max(15).required("Please enter material code"),
   total_weight: Yup.string().required("Please enter total weight"),
   quantity: Yup.string().required("Please enter the Quantity"),
-  received_from: Yup.string().required("Please enter Invoice Date"),
-  manufacturing_date: Yup.date().required("Please enter Manufacturing Date"),
-  expiry_date: Yup.date().required("Please enter the expiry Date"),
 });
 
 const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
@@ -94,7 +89,7 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
   const [query, setQuery] = useState("");
   const [filteredResults, setFilteredResults] = useState(availablePallet);
   const [selectedElement, setSelectedElement] = useState("");
-  const materialRef = useRef("false");
+  const [mdesc, setMdesc] = useState("");
 
   const handleSelect = (selectedItem) => {
     setSelectedElement(selectedItem);
@@ -122,18 +117,12 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
     setFilteredResults(filtered);
   };
 
-  const getCurrentTime = () => {
-    // Get current date and time
-    const now = new Date();
-    return format(now, "HH:mm:ss");
-  };
-
   const handleSelectChange = (event) => {
     setPalletset(event.target.value);
     console.log(palletset);
   };
 
-  console.log(filteredResults, selectedElement);
+  console.log(initialValues, "initialvalues");
 
   const { values, handleBlur, handleChange, handleSubmit, errors, touched } = useFormik({
     initialValues,
@@ -142,38 +131,51 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
     validateOnBlur: false,
     //// By disabling validation onChange and onBlur formik will validate on submit.
     onSubmit: (values, action) => {
-      if (materialRef.current == "false") {
+      if (
+        mdesc == "" ||
+        mdesc == "Material code not available, please add it in the material master"
+      ) {
         toast.error(
           "The material code is not available in the material master, please add the material details there"
         );
         return;
       }
+
+      values.description = mdesc;
       values.sr_no = data.length + 1;
-      values.actionn = "start_unloading";
-      values.unloading_time = "";
-      values.inward_time = getCurrentTime();
-      values.unloading_date = format(values.unloading_date, "yyyy-MM-dd HH:mm:ss");
-      values.invoice_date = format(values.invoice_date, "yyyy-MM-dd HH:mm:ss");
       values.pallet_selection = palletset;
+      values.putaway_location = "A-0-001";
+      values.manufacturing_date = format(values.manufacturing_date, "yyyy-MM-dd HH:mm:ss");
+      values.expiry_date = format(values.expiry_date, "yyyy-MM-dd HH:mm:ss");
+
+      let pallet_start = "";
 
       if (palletset == "manual") {
         if (selectedElement == "") {
           toast.error("Please select the staring pallet");
           return;
         }
-        values.pallet_start = selectedElement;
+        pallet_start = selectedElement;
+        values.putaway_location = selectedElement;
       }
 
       console.log("🚀 ~ file: App.jsx ~ line 155 ~ App ~ values", values);
 
-      setData((prevArray) => [...prevArray, values]);
+      setData([...data, values]);
+      console.log(data);
       //// to get rid of all the values after submitting the form
       action.resetForm();
+      handleClose(false);
     },
   });
 
   const handleMaterialCode = (event) => {
+    handleChange(event);
     let materialCode = event.target.value;
+
+    if (materialCode.length < 6) {
+      return;
+    }
 
     // axios
     //   .get("https://kawalpatel.online/laravelProjects/wms-wizard/public/api/getallmaterials/{material_code}")
@@ -187,16 +189,11 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
     //   });
 
     if (materialCode == "45011617") {
-      initialValues.description = "MSeal 909 IN";
-      materialRef.current = "true";
+      setMdesc("MSeal 909 IN");
     } else {
-      toast.error(
-        "The material code is not available in the material master, please add the material details there"
-      );
+      setMdesc("Material code not available, please add it in the material master");
       return;
     }
-
-    handleChange();
   };
 
   return (
@@ -226,7 +223,7 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
             New Unloading Detail
           </Typography>
 
-          <form onSubmit={handleSubmit}>
+          <form id="my-form" onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid xs={12} md={6}>
                 <TextField
@@ -235,11 +232,11 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
                   name="material_code"
                   onChange={handleMaterialCode}
                   required
-                  value={values.consignor_name}
+                  value={values.material_code}
                 />
-                {touched.consignor_name && errors.consignor_name ? (
+                {touched.material_code && errors.material_code ? (
                   <Typography sx={{ color: "#b22b27", fontSize: "15px", p: "0", m: "0" }}>
-                    {errors.consignor_name}
+                    {errors.material_code}
                   </Typography>
                 ) : null}
               </Grid>
@@ -249,11 +246,11 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
                   label="Batch Number"
                   name="batch_number"
                   onChange={handleChange}
-                  value={values.invoice_number}
+                  value={values.batch_number}
                 />
-                {touched.invoice_number && errors.invoice_number ? (
+                {touched.batch_number && errors.batch_number ? (
                   <Typography sx={{ color: "#b22b27", fontSize: "15px", p: "0" }}>
-                    {errors.invoice_number}
+                    {errors.batch_number}
                   </Typography>
                 ) : null}
               </Grid>
@@ -262,15 +259,9 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
                   fullWidth
                   label="description"
                   name="description"
-                  onChange={handleChange}
-                  value={values.name_of_supervisor}
+                  value={mdesc}
                   disabled
                 />
-                {touched.name_of_supervisor && errors.name_of_supervisor ? (
-                  <Typography sx={{ color: "#b22b27", fontSize: "15px", p: "0" }}>
-                    {errors.name_of_supervisor}
-                  </Typography>
-                ) : null}
               </Grid>
               <Grid xs={12} md={6}>
                 <DatePicker
@@ -317,12 +308,12 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
                   label="Quantity"
                   name="quantity"
                   onChange={handleChange}
-                  value={values.name_of_supervisor}
+                  value={values.quantity}
                   required
                 />
-                {touched.name_of_supervisor && errors.name_of_supervisor ? (
+                {touched.quantity && errors.quantity ? (
                   <Typography sx={{ color: "#b22b27", fontSize: "15px", p: "0" }}>
-                    {errors.name_of_supervisor}
+                    {errors.quantity}
                   </Typography>
                 ) : null}
               </Grid>
@@ -332,91 +323,93 @@ const Addmaterialmodalf = ({ handleClose, showModal, setData, data }) => {
                   label="Total Weight"
                   name="total_weight"
                   onChange={handleChange}
-                  value={values.received_from}
+                  value={values.total_weight}
                   required
                 />
-                {touched.received_from && errors.received_from ? (
+                {touched.total_weight && errors.total_weight ? (
                   <Typography sx={{ textColor: "#b22b27", fontSize: "15px", p: "0" }}>
-                    {errors.received_from}
+                    {errors.total_weight}
                   </Typography>
                 ) : null}
               </Grid>
             </Grid>
-            <hr></hr>
-            <Grid xs={12} md={6}>
-              <TextField
-                fullWidth
-                label="Pallet Selection"
-                name="truck_number"
-                onChange={handleSelectChange}
-                select
-                SelectProps={{ native: true }}
-                required
-                value={palletset}
-              >
-                {palletselection.map((option) => (
-                  <option key={option.value} value={option.label}>
-                    {option.value}
-                  </option>
-                ))}
-              </TextField>
-            </Grid>
-            <hr></hr>
-            {palletset == "manual" && (
-              <Grid>
-                <Typography variant="h4" sx={{ display: "flex", fontWeight: "100" }}>
-                  Search for the starting pallet
-                </Typography>
-                <Typography sx={{ m: 0, p: 0 }}>
-                  {" "}
-                  Required pallets after it will be automatically assigned from the available
-                  pallets
-                </Typography>
-
-                <TextField
-                  label="Search pallet"
-                  type="text"
-                  name="search"
-                  placeholder="Type to search..."
-                  value={query}
-                  onChange={handleInputChange}
-                />
-
-                {filteredResults.length > 0 && (
-                  <div sx={{ overflow: "auto", maxHeight: "100vh" }}>
-                    <select
-                      value={selectedElement}
-                      onChange={(e) => handleSelect(e.target.value)}
-                      sx={{ marginTop: "8px", fontSize: "16px", width: "100%" }}
-                    >
-                      <option value="" disabled>
-                        Select an element from the below list
-                      </option>
-                      {filteredResults.map((item) => (
-                        <option key={item} value={item} onClick={() => handleSelect(item)}>
-                          {item}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                )}
-
-                {selectedElement && <Typography>Selected Element: {selectedElement}</Typography>}
-              </Grid>
-            )}
-            <Button
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-                position: "absolute",
-                right: "20px",
-              }}
-              variant="contained"
-              onClick={handleSubmit}
-            >
-              Save details
-            </Button>
           </form>
+
+          <hr></hr>
+          <Grid xs={12} md={6}>
+            <TextField
+              fullWidth
+              label="Pallet Selection"
+              name="truck_number"
+              onChange={handleSelectChange}
+              select
+              SelectProps={{ native: true }}
+              required
+              value={palletset}
+            >
+              {palletselection.map((option) => (
+                <option key={option.value} value={option.label}>
+                  {option.value}
+                </option>
+              ))}
+            </TextField>
+          </Grid>
+          <hr></hr>
+          {palletset == "manual" && (
+            <Grid>
+              <Typography variant="h4" sx={{ display: "flex", fontWeight: "100" }}>
+                Search for the starting pallet
+              </Typography>
+              <Typography sx={{ m: 0, p: 0 }}>
+                {" "}
+                Required pallets after it will be automatically assigned from the available pallets
+              </Typography>
+
+              <TextField
+                label="Search pallet"
+                type="text"
+                name="search"
+                placeholder="Type to search..."
+                value={query}
+                onChange={handleInputChange}
+              />
+
+              {filteredResults.length > 0 && (
+                <div sx={{ overflow: "auto", maxHeight: "100vh" }}>
+                  <select
+                    value={selectedElement}
+                    onChange={(e) => handleSelect(e.target.value)}
+                    sx={{ marginTop: "8px", fontSize: "16px", width: "100%" }}
+                  >
+                    <option value="" disabled>
+                      Select an element from the below list
+                    </option>
+                    {filteredResults.map((item) => (
+                      <option key={item} value={item} onClick={() => handleSelect(item)}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {selectedElement && <Typography>Selected Element: {selectedElement}</Typography>}
+            </Grid>
+          )}
+          <Button
+            form="my-form"
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              position: "absolute",
+              right: "20px",
+            }}
+            variant="contained"
+            type="submit"
+            onClick={handleSubmit}
+          >
+            Save
+          </Button>
         </Box>
       </Modal>
     </div>
