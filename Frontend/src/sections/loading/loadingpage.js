@@ -7,7 +7,7 @@ import { Box, Button, Stack, Typography } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 import { useRef, useState } from "react";
-import Addnewunloadingmodal from "./addnewunloadingmodal";
+import Addnewloadingmodal from "./addnewloadingmodal";
 import { useDispatch } from "react-redux";
 import { addinventoryuldetails } from "src/redux/slice";
 import { useRouter } from "next/router";
@@ -24,38 +24,42 @@ const csvConfig = mkConfig({
 let fdata = [
   {
     sr_no: "1",
-    consignor_name: "Godrej",
-    invoice_number: "32156488",
-    invoice_date: "2023-11-25 11:11:11",
-    actionn: "start_unloading", //double nn in the end as action is a react
+    consignee_name: "ace",
+    shipment_number: "6101225249",
+    shipment_date: "2023-11-25",
+    transporter: "poornima",
+    actionn: "start_pickup", //double nn in the end as action is a react
     name_of_supervisor: "Ganesh",
-    received_from: "Godrej",
-    unloading_time: "",
-    inward_time: "10:11:12",
+    loading_start_time: "",
+    outward_time: "10:11:12",
     truck_number: "",
-    unloading_date: "2023-11-25 11:11:11",
-    unloading_end_time: "",
+    loading_date: "2023-11-25",
+    loading_end_time: "",
+    driver_mobile: "8989898989",
+    lr_number: "",
   },
   {
     sr_no: "2",
-    consignor_name: "Godrej",
-    invoice_number: "32156489",
-    invoice_date: "2023-11-25 10:10:10",
-    actionn: "start_unloading", //double nn in the end as action is a react
+    consignee_name: "deepak nitrite",
+    shipment_number: "6101225249",
+    shipment_date: "2023-11-25",
+    transporter: "adveth",
+    actionn: "start_pickup", //double nn in the end as action is a react
     name_of_supervisor: "Ganesh",
-    received_from: "Godrej",
-    unloading_time: "",
-    inward_time: "10:10:10",
-    truck_number: "MH052486",
-    unloading_date: "2023-11-25 10:10:10",
-    unloading_end_time: "",
+    loading_start_time: "",
+    outward_time: "10:11:12",
+    truck_number: "",
+    loading_date: "2023-11-25",
+    loading_end_time: "",
+    driver_mobile: "8989898989",
+    lr_number: "",
   },
 ];
 
-const Unloadingpage = () => {
+const Loadingpage = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
-  const unloadingRef = useRef("");
+  const loadingRef = useRef("");
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -65,14 +69,17 @@ const Unloadingpage = () => {
       header: "Sr_no.",
       size: "20px",
     }),
-    columnHelper.accessor("consignor_name", {
-      header: "Consignor Name",
+    columnHelper.accessor("consignee_name", {
+      header: "Consignee Name",
     }),
-    columnHelper.accessor("invoice_number", {
-      header: "Invoice Number",
+    columnHelper.accessor("shipment_number", {
+      header: "shipment Number",
     }),
-    columnHelper.accessor("invoice_date", {
-      header: "Invoice Date",
+    columnHelper.accessor("shipment_date", {
+      header: "shipment date",
+    }),
+    columnHelper.accessor("transporter", {
+      header: "transporter",
     }),
     {
       id: "actionn",
@@ -80,16 +87,16 @@ const Unloadingpage = () => {
       accessorKey: "actionn",
       enableColumnOrdering: true,
       Cell: ({ renderedCellValue, row }) => {
-        if (renderedCellValue == "start_unloading") {
+        if (renderedCellValue == "start_pickup") {
           return (
             <Button
               variant="contained"
               sx={{ backgroundColor: "#7AED53", color: "black", m: 0, pb: 0, pt: 0 }}
               onClick={() => {
-                handleUnloading(row._valuesCache);
+                handleloading(row._valuesCache);
               }}
             >
-              Start Unloading
+              Start Pick-up
             </Button>
           );
         } else {
@@ -102,7 +109,7 @@ const Unloadingpage = () => {
                 handleSaveProcessing(row._valuesCache);
               }}
             >
-              Save Inward Processing
+              Save Outward Processing
             </Button>
           );
         }
@@ -129,21 +136,28 @@ const Unloadingpage = () => {
     columnHelper.accessor("name_of_supervisor", {
       header: "Name of Supervisor",
     }),
-    columnHelper.accessor("received_from", {
-      header: "Received From",
+    columnHelper.accessor("loading_start_time", {
+      header: "loading start time",
     }),
-    columnHelper.accessor("unloading_time", {
-      header: "Unloading start time",
+    columnHelper.accessor("loading_end_time", {
+      header: "loading end time",
     }),
-    columnHelper.accessor("inward_time", {
-      header: "Inward time",
+    columnHelper.accessor("loading_date", {
+      header: "loading Date",
+    }),
+    columnHelper.accessor("outward_time", {
+      header: "outward time",
     }),
     columnHelper.accessor("truck_number", {
       header: "Truck Number",
     }),
-    columnHelper.accessor("unloading_date", {
-      header: "Unloading Date",
+    columnHelper.accessor("lr_number", {
+      header: "lr number",
     }),
+    columnHelper.accessor("driver_mobile", {
+      header: "driver number",
+    }),
+
     {
       id: "delete",
       header: "delete",
@@ -169,14 +183,14 @@ const Unloadingpage = () => {
     return format(now, "HH:mm:ss");
   };
 
-  const handleUnloading = (rowval) => {
+  const handleloading = (rowval) => {
     // to updateeee
     const time = getCurrentTime();
 
     const newData = data.map((item) => {
       if (item.invoice_number == rowval.invoice_number) {
         console.log(item.invoice_number, rowval.invoice_number, ".......");
-        return { ...item, actionn: "Save Inward Processing", unloading_time: time };
+        return { ...item, actionn: "Save Inward Processing", loading_time: time };
       } else {
         return item;
       }
@@ -192,7 +206,7 @@ const Unloadingpage = () => {
     const newData = data.map((item) => {
       if (item.invoice_number == rowval.invoice_number) {
         console.log(item.invoice_number, rowval.invoice_number, ".......");
-        return { ...item, actionn: "Save Inward Processing", unloading_time: time };
+        return { ...item, actionn: "Save Inward Processing", loading_time: time };
       } else {
         return item;
       }
@@ -278,7 +292,7 @@ const Unloadingpage = () => {
     <div>
       <Stack alignItems="center" direction="row" justifyContent="space-between" spacing={2}>
         <Typography sx={{ m: 1, pl: 2 }} variant="h5" component="h5">
-          Ongoing Inwards
+          Ongoing Outwards
         </Typography>
         <Stack sx={{ display: "flex", alignItems: "center", pr: 2 }} direction="row" spacing={2}>
           <Button
@@ -287,13 +301,13 @@ const Unloadingpage = () => {
               setShowModal(true);
             }}
           >
-            + Add New Unloading
+            + Add New loading
           </Button>
         </Stack>
       </Stack>
       <MaterialReactTable table={table} />
       {showModal && (
-        <Addnewunloadingmodal
+        <Addnewloadingmodal
           showModal={showModal}
           handleClose={handleClose}
           setData={setData}
@@ -304,4 +318,4 @@ const Unloadingpage = () => {
   );
 };
 
-export default Unloadingpage;
+export default Loadingpage;

@@ -13,17 +13,33 @@ const columnHelper = createMRTColumnHelper();
 let fdata = [
   {
     sr_no: "1",
-    consignor_name: "Godrej",
-    invoice_number: "32156488",
-    invoice_date: "2023-11-25 11:11:11",
-    actionn: "start_unloading", //double nn in the end as action is a react
+    consignee_name: "FCL",
+    shipment_number: "5101235249",
+    shipment_date: "2023-11-25",
+    transporter: "poornima",
+    actionn: "start_pickup", //double nn in the end as action is a react
     name_of_supervisor: "Ganesh",
-    received_from: "Godrej",
-    unloading_time: "11:11:12",
-    inward_time: "10:11:12",
+    loading_start_time: "",
+    outward_time: "10:11:12",
     truck_number: "",
-    unloading_date: "2023-11-25 11:11:11",
-    unloading_end_time: "12:11:12",
+    loading_date: "2023-11-25",
+    loading_end_time: "",
+    driver_mobile: "8989898989",
+  },
+  {
+    sr_no: "2",
+    consignee_name: "Berger Paints",
+    shipment_number: "6101225349",
+    shipment_date: "2023-11-25",
+    transporter: "adveth",
+    actionn: "start_pickup", //double nn in the end as action is a react
+    name_of_supervisor: "Ganesh",
+    loading_start_time: "",
+    outward_time: "10:11:12",
+    truck_number: "",
+    loading_date: "2023-11-25",
+    loading_end_time: "",
+    driver_mobile: "8989898989",
   },
 ];
 
@@ -33,7 +49,7 @@ const csvConfig = mkConfig({
   useKeysAsHeaders: true,
 });
 
-const Unloadinglog = () => {
+const Loadinglog = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
   const rowRef = useRef("");
@@ -41,36 +57,41 @@ const Unloadinglog = () => {
   const columns = [
     columnHelper.accessor("sr_no", {
       header: "Sr_no.",
+      size: "20px",
     }),
-    columnHelper.accessor("consignor_name", {
-      header: "Consignor Name",
+    columnHelper.accessor("consignee_name", {
+      header: "Consignee Name",
     }),
-    columnHelper.accessor("invoice_number", {
-      header: "Invoice Number",
+    columnHelper.accessor("shipment_number", {
+      header: "shipment Number",
     }),
-    columnHelper.accessor("invoice_date", {
-      header: "Invoice Date",
+    columnHelper.accessor("shipment_date", {
+      header: "shipment date",
     }),
+    columnHelper.accessor("transporter", {
+      header: "transporter",
+    }),
+
     columnHelper.accessor("name_of_supervisor", {
       header: "Name of Supervisor",
     }),
-    columnHelper.accessor("received_from", {
-      header: "Received From",
+    columnHelper.accessor("loading_start_time", {
+      header: "loading start time",
     }),
-    columnHelper.accessor("unloading_time", {
-      header: "Unloading start time",
+    columnHelper.accessor("loading_end_time", {
+      header: "loading end time",
     }),
-    columnHelper.accessor("unloading_end_time", {
-      header: "Unloading end time",
+    columnHelper.accessor("loading_date", {
+      header: "loading Date",
     }),
-    columnHelper.accessor("inward_time", {
-      header: "Inward time",
+    columnHelper.accessor("outward_time", {
+      header: "outward time",
     }),
     columnHelper.accessor("truck_number", {
       header: "Truck Number",
     }),
-    columnHelper.accessor("unloading_date", {
-      header: "Unloading Date",
+    columnHelper.accessor("driver_mobile", {
+      header: "driver number",
     }),
 
     {
@@ -172,10 +193,10 @@ const Unloadinglog = () => {
     <>
       <MaterialReactTable table={table} />
       {/* {showModal && (
-        <Inventorymodal showModal={showModal} handleClose={handleClose} rowRef={rowRef} />
-      )} */}
+          <Inventorymodal showModal={showModal} handleClose={handleClose} rowRef={rowRef} />
+        )} */}
     </>
   );
 };
 
-export default Unloadinglog;
+export default Loadinglog;

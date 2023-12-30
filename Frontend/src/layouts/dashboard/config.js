@@ -19,6 +19,15 @@ export const items = [
     ),
   },
   {
+    title: "loading",
+    path: "/loading",
+    icon: (
+      <SvgIcon fontSize="small">
+        <ChartBarIcon />
+      </SvgIcon>
+    ),
+  },
+  {
     title: "Overview",
     path: "/",
     icon: (
