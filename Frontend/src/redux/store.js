@@ -1,6 +1,8 @@
 const { configureStore } = require("@reduxjs/toolkit");
-import reducer from "./slice";
+import opSlice from "./slice";
 
 export const store = configureStore({
-  reducer,
+  reducer: {
+    op: opSlice,
+  },
 });

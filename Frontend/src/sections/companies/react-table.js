@@ -500,7 +500,7 @@ const Example = () => {
   const [isError, setIsError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isRefetching, setIsRefetching] = useState(false);
-  let companyname = useSelector((store) => store.company);
+  let companyname = useSelector((store) => store.op.company);
   console.log(companyname, "from warehouse lookup");
 
   const handleExportRows = (rows) => {

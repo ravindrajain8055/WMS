@@ -13,7 +13,7 @@ const Company = () => {
   const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShowModal(false);
   const dispatch = useDispatch();
-  let companyname = useSelector((store) => store.company);
+  let companyname = useSelector((store) => store.op.company);
 
   useEffect(() => {
     if (!companyname) {

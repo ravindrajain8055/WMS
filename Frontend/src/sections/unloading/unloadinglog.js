@@ -6,7 +6,9 @@ import {
 import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -35,8 +37,18 @@ const csvConfig = mkConfig({
 
 const Unloadinglog = () => {
   const [data, setData] = useState(fdata);
+  let unloadinglogdata = useSelector((state) => state.op.unloadinglog);
+
+  useEffect(() => {
+    if (unloadinglogdata.length > 0) {
+      setData(unloadinglogdata);
+      console.log(data, "........fdata.....");
+    }
+  }, [unloadinglogdata]);
+
   const [showModal, setShowModal] = useState(false);
   const rowRef = useRef("");
+  const dispatch = useDispatch();
 
   const columns = [
     columnHelper.accessor("sr_no", {
@@ -165,8 +177,6 @@ const Unloadinglog = () => {
       </Box>
     ),
   });
-
-  console.log(rowRef.current);
 
   return (
     <>

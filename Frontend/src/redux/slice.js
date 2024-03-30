@@ -7,10 +7,11 @@ const initialState = {
   // materialul: [],
   // materiall: [],
   inventoryuldetails: {},
+  unloadinglog: [],
 };
 
-const Slice = createSlice({
-  name: "Op",
+const opSlice = createSlice({
+  name: "op",
   initialState,
   reducers: {
     addCompany: (state, action) => {
@@ -19,8 +20,12 @@ const Slice = createSlice({
     addinventoryuldetails: (state, action) => {
       state.inventoryuldetails = action.payload;
     },
+    addunloadinglog: (state, action) => {
+      console.log(action.payload);
+      state.unloadinglog.push(action.payload);
+    },
   },
 });
 
-export const { addCompany, addinventoryuldetails } = Slice.actions;
-export default Slice.reducer;
+export const { addCompany, addinventoryuldetails, addunloadinglog } = opSlice.actions;
+export default opSlice.reducer;

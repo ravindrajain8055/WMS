@@ -13,7 +13,7 @@ export const OverviewBudget = (props) => {
         <Stack alignItems="flex-start" direction="row" justifyContent="space-between" spacing={3}>
           <Stack spacing={1}>
             <Typography color="text.secondary" variant="overline">
-              Budget
+              Used Pallets
             </Typography>
             <Typography variant="h4">{value}</Typography>
           </Stack>

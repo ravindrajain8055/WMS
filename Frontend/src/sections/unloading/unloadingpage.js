@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { addinventoryuldetails } from "src/redux/slice";
 import { useRouter } from "next/router";
 import { format } from "date-fns";
+import { addunloadinglog } from "src/redux/slice";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -189,16 +190,12 @@ const Unloadingpage = () => {
     // to updateeee
     const time = getCurrentTime();
 
-    const newData = data.map((item) => {
-      if (item.invoice_number == rowval.invoice_number) {
-        console.log(item.invoice_number, rowval.invoice_number, ".......");
-        return { ...item, actionn: "Save Inward Processing", unloading_time: time };
-      } else {
-        return item;
-      }
-    });
+    let newData = data.find((item) => item.invoice_number == rowval.invoice_number);
+    console.log(newData, "DATA from save inward processing");
+    dispatch(addunloadinglog({ ...newData, actionn: "Saved", unloading_end_time: time }));
 
-    setData(newData);
+    const pageData = data.filter((item) => item.invoice_number !== rowval.invoice_number);
+    setData(pageData);
   };
 
   const handleExportRows = (rows) => {

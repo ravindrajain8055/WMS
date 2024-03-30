@@ -28,32 +28,43 @@ const Page = () => (
       <Container maxWidth="xl">
         <Grid container spacing={3}>
           <Grid xs={12} sm={6} lg={3}>
-            <OverviewBudget difference={12} positive sx={{ height: "100%" }} value="$24k" />
+            <OverviewBudget difference={12} positive sx={{ height: "100%" }} value="2108" />
           </Grid>
-          <Grid xs={12} sm={6} lg={3}>
+          {/* <Grid xs={12} sm={6} lg={3}>
             <OverviewTotalCustomers
               difference={16}
               positive={false}
               sx={{ height: "100%" }}
               value="1.6k"
             />
+          </Grid> */}
+          <Grid xs={12} sm={6} lg={3}>
+            <OverviewTasksProgress
+              sx={{ height: "100%" }}
+              value={100}
+              name={"Todays inward progress"}
+            />
           </Grid>
           <Grid xs={12} sm={6} lg={3}>
-            <OverviewTasksProgress sx={{ height: "100%" }} value={75.5} />
+            <OverviewTasksProgress
+              sx={{ height: "100%" }}
+              value={75.5}
+              name={"Todays outward progress"}
+            />
           </Grid>
-          <Grid xs={12} sm={6} lg={3}>
+          {/* <Grid xs={12} sm={6} lg={3}>
             <OverviewTotalProfit sx={{ height: "100%" }} value="$15k" />
-          </Grid>
+          </Grid> */}
           <Grid xs={12} lg={8}>
             <OverviewSales
               chartSeries={[
                 {
                   name: "This year",
-                  data: [18, 16, 5, 8, 3, 14, 14, 16, 17, 19, 18, 20],
+                  data: [108, 160, 150, 187, 143, 114, 214, 166, 197, 149, 178, 180],
                 },
                 {
                   name: "Last year",
-                  data: [12, 11, 4, 6, 2, 9, 9, 10, 11, 12, 13, 13],
+                  data: [108, 160, 214, 166, 197, 149, 178, 180, 131, 132, 212, 156],
                 },
               ]}
               sx={{ height: "100%" }}
@@ -61,8 +72,8 @@ const Page = () => (
           </Grid>
           <Grid xs={12} md={6} lg={4}>
             <OverviewTraffic
-              chartSeries={[63, 15, 22]}
-              labels={["Desktop", "Tablet", "Phone"]}
+              chartSeries={[63, 45, 5]}
+              labels={["Godrej", "Wanhua", "others"]}
               sx={{ height: "100%" }}
             />
           </Grid>

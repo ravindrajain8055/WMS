@@ -84,7 +84,7 @@ export const Layout = (props) => {
             <Typography align="center" sx={{ mb: 3 }} variant="subtitle1">
               A professional Warehouse management website.
             </Typography>
-            <img alt="" src="/assets/auth-illustration.svg" />
+            {/* <img alt="" src="/assets/auth-illustration.svg" /> */}
           </Box>
         </Grid>
       </Grid>

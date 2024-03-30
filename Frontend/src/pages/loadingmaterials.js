@@ -20,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const Page = () => {
-  let uli = useSelector((store) => store.inventoryuldetails);
+  let uli = useSelector((store) => store.op.inventoryuldetails);
   const {
     invoice_number,
     invoice_date,

@@ -41,10 +41,8 @@ const initialValues = {
 const signUpSchema = Yup.object({
   consignor_name: Yup.string().min(2).max(25).required("Please enter consignor name"),
   invoice_number: Yup.string().min(2).max(25).required("Please enter your Invoice number"),
-  invoice_date: Yup.date().required("Please enter Invoice Date"),
   name_of_supervisor: Yup.string().required("Please enter Supervisor name"),
-  received_from: Yup.string().required("Please enter Invoice Date"),
-  unloading_date: Yup.date().required("Please enter Invoice Date"),
+  received_from: Yup.string(),
 });
 
 const Addnewunloadingmodal = ({ handleClose, showModal, setData, data }) => {
