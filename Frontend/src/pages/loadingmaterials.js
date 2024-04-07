@@ -46,21 +46,21 @@ const Page = () => {
             <Grid container spacing={2} columns={16}>
               <Grid item xs={4}>
                 <Item>Invoice Number</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{invoice_number}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{invoice_number}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Invoice Date</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{invoice_date}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{invoice_date}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Name of supervisor</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>
                   {name_of_supervisor}
                 </Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Received From</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{received_from}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{received_from}</Item>
               </Grid>
             </Grid>
           </div>
@@ -71,19 +71,19 @@ const Page = () => {
             <Grid container spacing={2} columns={16}>
               <Grid item xs={4}>
                 <Item>Truck Number</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{truck_number}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{truck_number}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Inward Time</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{inward_time}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{inward_time}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Unloading Date</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{unloading_date}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{unloading_date}</Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>Consignor Name</Item>
-                <Item style={{ backgroundColor: "#808080", color: "white" }}>{consignor_name}</Item>
+                <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{consignor_name}</Item>
               </Grid>
             </Grid>
           </div>

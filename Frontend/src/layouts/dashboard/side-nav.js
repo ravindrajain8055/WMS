@@ -67,7 +67,7 @@ export const SideNav = (props) => {
           >
             <div>
               <Typography color="inherit" variant="subtitle1">
-                Company Name
+                WMS
               </Typography>
               <Typography color="neutral.400" variant="body2">
                 Warehouse Management System

@@ -9,6 +9,8 @@ import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your l
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { addinventoryuldetails } from "src/redux/slice";
+import { useRouter } from "next/router";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -29,6 +31,21 @@ let fdata = [
   },
 ];
 
+const detailsM = {
+  sr_no: "1",
+  consignor_name: "Godrej",
+  invoice_number: "32156488",
+  invoice_date: "2023-11-25 11:11:11",
+  actionn: "start_unloading", //double nn in the end as action is a react
+  name_of_supervisor: "Ganesh",
+  received_from: "Godrej",
+  unloading_time: "11:11:12",
+  inward_time: "10:11:12",
+  truck_number: "",
+  unloading_date: "2023-11-25 11:11:11",
+  unloading_end_time: "12:11:12",
+};
+
 const csvConfig = mkConfig({
   fieldSeparator: ",",
   decimalSeparator: ".",
@@ -37,6 +54,7 @@ const csvConfig = mkConfig({
 
 const Unloadinglog = () => {
   const [data, setData] = useState(fdata);
+  const router = useRouter();
   let unloadinglogdata = useSelector((state) => state.op.unloadinglog);
 
   useEffect(() => {
@@ -95,11 +113,11 @@ const Unloadinglog = () => {
           variant="contained"
           sx={{ pb: 0, pt: 0, backgroundColor: "#6366f1" }}
           onClick={() => {
-            dispatch(addinventoryuldetails(row._valuesCache));
-            router.push("/addmaterials");
+            dispatch(addinventoryuldetails(detailsM));
+            router.push("/materiallogs");
           }}
         >
-          Material Details
+          Details
         </Button>
       ),
     },

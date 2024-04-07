@@ -5,7 +5,7 @@ import { Layout as DashboardLayout } from "src/layouts/dashboard/layout";
 import { useSelector } from "react-redux";
 import { styled } from "@mui/material/styles";
 import Paper from "@mui/material/Paper";
-import Addmaterialtable from "../sections/addmaterials/addmaterialtable";
+import Materiallog from "../sections/addmaterials/materiallog";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: "#6366f1",
@@ -35,10 +35,10 @@ const Page = () => {
   return (
     <div>
       <Head>
-        <title>Add_Materials</title>
+        <title>Unloading details</title>
       </Head>
       <Typography sx={{ m: 1 }} variant="h5" component="h5">
-        Add Materials
+        Unloading details
       </Typography>
       <Card sx={{ border: "1px solid", ml: 1, mr: 1, pl: 1, pr: 1 }}>
         <Box sx={{ flexGrow: 1 }}>
@@ -90,7 +90,7 @@ const Page = () => {
         </Box>
       </Card>
 
-      <Addmaterialtable />
+      <Materiallog />
     </div>
   );
 };

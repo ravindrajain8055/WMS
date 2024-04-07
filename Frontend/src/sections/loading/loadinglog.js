@@ -7,6 +7,9 @@ import { Box, Button } from "@mui/material";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import { mkConfig, generateCsv, download } from "export-to-csv"; //or use your library of choice here
 import { useRef, useState } from "react";
+import { addinventoryuldetails } from "src/redux/slice";
+import { useRouter } from "next/router";
+import { useDispatch } from "react-redux";
 
 const columnHelper = createMRTColumnHelper();
 
@@ -53,6 +56,9 @@ const Loadinglog = () => {
   const [data, setData] = useState(fdata);
   const [showModal, setShowModal] = useState(false);
   const rowRef = useRef("");
+
+  const dispatch = useDispatch();
+  const router = useRouter();
 
   const columns = [
     columnHelper.accessor("sr_no", {

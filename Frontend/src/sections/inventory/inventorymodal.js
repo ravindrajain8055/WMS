@@ -181,17 +181,17 @@ const Inventorymodal = ({ handleClose, showModal, rowRef }) => {
               <Grid container spacing={2} columns={16}>
                 <Grid item xs={5}>
                   <Item>Batch Number</Item>
-                  <Item style={{ backgroundColor: "#808080", color: "white" }}>{batch_number}</Item>
+                  <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>{batch_number}</Item>
                 </Grid>
                 <Grid item xs={5}>
                   <Item>Material Code</Item>
-                  <Item style={{ backgroundColor: "#808080", color: "white" }}>
+                  <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>
                     {material_code}
                   </Item>
                 </Grid>
                 <Grid item xs={6}>
                   <Item>Material Description</Item>
-                  <Item style={{ backgroundColor: "#808080", color: "white" }}>
+                  <Item style={{ backgroundColor: "#D3D3D3", color: "white" }}>
                     {material_description}
                   </Item>
                 </Grid>
