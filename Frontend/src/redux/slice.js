@@ -21,7 +21,6 @@ const opSlice = createSlice({
       state.inventoryuldetails = action.payload;
     },
     addunloadinglog: (state, action) => {
-      console.log(action.payload);
       state.unloadinglog.push(action.payload);
     },
   },
